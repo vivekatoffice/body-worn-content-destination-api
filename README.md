@@ -310,7 +310,7 @@ The name of the object is `<StartTime>_<RecordingID>.key`.
 
 | Key | Type | Description |
 |---|---|---|
-| StartTime | String | The start time of the encrypted clip or the start time of the recording for encrypted location data. | 
+| StartTime | String | The start time of the encrypted clip or the start time of the recording for encrypted location data. |
 | FileType | String | 'key' |
 
 #### Bookmark object metadata
@@ -328,6 +328,7 @@ The content of the object is the free text description, in UTF-8. As there is a 
 | Tags | String | A semicolon separated string of tags. |
 | StartTime | String | Timestamp for the description in RFC3339 (UTC). If not set by the user, it starts at the beginning of the recording. |
 | EndTime | String | Timestamp for the description in RFC3339 (UTC). If not set by the user there is no key. |
+| Location | String[64] | <lat><long><accuracy><epoch> |
 
 #### Location object meta-data
 
@@ -434,12 +435,12 @@ Object name is `<BWCSerialNumber>`.
 
 ### Rejected content storage
 
-Content that has been rejected by the content destination (due to e.g. corrupt data or missing meta data) will be uploaded to a rejected 
-content container if the `StoreRejectedContent` capability has been enabled. If the capability is enabled, the SCU expects the content 
-destination to never reject anything uploaded as rejected content. 
+Content that has been rejected by the content destination (due to e.g. corrupt data or missing meta data) will be uploaded to a rejected
+content container if the `StoreRejectedContent` capability has been enabled. If the capability is enabled, the SCU expects the content
+destination to never reject anything uploaded as rejected content.
 
-The name of the container is `RejectedContent_<RejectedContentTime>_<UUID>` where RejectedContentTime is the time when the decision was 
-made to reject the content and is given in UTC time and formatted according to YYYYMMDDTHHMMSSZ. The time can be unknown for some cases 
+The name of the container is `RejectedContent_<RejectedContentTime>_<UUID>` where RejectedContentTime is the time when the decision was
+made to reject the content and is given in UTC time and formatted according to YYYYMMDDTHHMMSSZ. The time can be unknown for some cases
 and will then be given as `UnknownTime`. The last part is a unique id generated at the time of upload.
 
 Upload of rejected content differs somewhat from the ordinary flow:
@@ -449,7 +450,7 @@ Upload of rejected content differs somewhat from the ordinary flow:
 
 #### Rejected content container metadata
 
-The container will contain all fields that would have been present in the normal container (if available), except for the 'Status' field, and 
+The container will contain all fields that would have been present in the normal container (if available), except for the 'Status' field, and
 a few additions:
 
 | Key | Type | Description |
@@ -461,9 +462,9 @@ a few additions:
 
 #### Rejected object metadata
 
-Rejected objects can be video clips, location data and encryption key files. 
+Rejected objects can be video clips, location data and encryption key files.
 
-Rejected objects will get all metadata as defined above if available and one addition: 
+Rejected objects will get all metadata as defined above if available and one addition:
 
 | Key | Type | Description |
 |---|---|---|
@@ -496,7 +497,7 @@ If the `ReadCategories` capability is set, the BWS will read categories from the
 
 On the BWS, a recording can be marked as belonging to a category. When the recording is uploaded to the CD, the category will be included as a bookmark. This ensures that the recording is correctly tagged from the beginning when it is uploaded to the CD. One way to mark a recording with a category is by using the mobile application Body Worn Assistant (BWA).
 
-Since categories are saved as bookmarks, the `StoreBookmarks` capability must be enabled in order to use categories. Category bookmarks contain the keys CategoryID, CategoryName and StartTime. They are described further in the [bookmark section](#bookmark-object-metadata). 
+Since categories are saved as bookmarks, the `StoreBookmarks` capability must be enabled in order to use categories. Category bookmarks contain the keys CategoryID, CategoryName and StartTime. They are described further in the [bookmark section](#bookmark-object-metadata).
 
 #### Categories.json example
 ```json
@@ -551,7 +552,7 @@ If the content destination can retrieve and display GNSS track data from a recor
 ### Store Rejected Content
 
 In case a clip or recording is not possible to upload to the content destination in the normal way, the content destination can implement the
-'StoreRejectedContent' capability. The SCU will then attempt to upload the content to a special "Rejected Content" container. The content destination can then handle the content separately and e.g. store it separately from the other content.  
+'StoreRejectedContent' capability. The SCU will then attempt to upload the content to a special "Rejected Content" container. The content destination can then handle the content separately and e.g. store it separately from the other content.
 
 Content eligible for rejected storage includes recordings or clips rejected by the content destination due to e.g. corrupt data or missing metadata, or any other reason that makes the content destination reject it. Note that this will not apply to content that fails uploading
 due to connectivity issues, they will simply be reattempted at a later time.
