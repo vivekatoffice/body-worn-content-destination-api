@@ -1,5 +1,11 @@
 Axis Body worn integration API
 
+Changes in v1.6.11:
+
+	* Add location field to Bookmarks
+	* Updated dependencies:
+		- golang.org/x/crypto from 0.1.30 to 0.35.0
+
 Changes in v1.6.10:
 	* Updated dependencies:
 		- github.com/golang-jwt/jwt/v4 from 4.5.1 to 4.5.2
