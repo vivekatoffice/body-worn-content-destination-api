@@ -301,8 +301,6 @@ The name of the object is `<StartTime>_<RecordingID>.<ContainerType>`.
 | StopTime | String | The time when the clip ended, epoch UTC. |
 | StopTimeISO | String | The time when the clip ended, RFC3339 format (UTC). |
 | ContainerType | String | The file type of the clip (mkv or mp4) |
-| StartLocation | String[64] | `<lat><long><accuracy><epoch>` |
-| StopLocation | String[64] | `<lat><long><accuracy><epoch>` |
 
 #### Key object metadata
 
@@ -330,7 +328,7 @@ The content of the object is the free text description, in UTF-8. As there is a 
 | EndTime | String | Timestamp for the description in RFC3339 (UTC). If not set by the user there is no key. |
 | Location | String[64] | <lat><long><accuracy><epoch> |
 
-#### Location object meta-data
+#### Location object metadata
 
 The name of the object is `<date>_<time>_<RecordingID>_<bwcid>_gpstrail.json`.
 
