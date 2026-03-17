@@ -1,5 +1,10 @@
 Axis Body worn integration API
 
+Changes in v1.6.12:
+	* Remove unused start and stop location fields
+	* Updated dependencies:
+		- golang.org/x/crypto from 0.35.0 to 0.45.0
+
 Changes in v1.6.11:
 
 	* Add location field to Bookmarks
