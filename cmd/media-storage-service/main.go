@@ -20,6 +20,10 @@ var (
 )
 
 func init() {
+	if dir, ok := os.LookupEnv("MSS_DIR"); ok {
+		exePath = dir
+		return
+	}
 	ex, err := os.Executable()
 	if err != nil {
 		log.Fatal(err)
