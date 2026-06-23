@@ -1,8 +1,8 @@
-# Axis Body worn integration API
+# Axis Body Worn Content Destination API
 
-The Body worn integration API makes it possible to integrate a third-party application as a content destination (CD) to the Body worn system (BWS). The application that implements the API operates as the server, while the BWS is the client that calls the API. The API itself is HTTPS-based and communication with the application is protected by certificates, which need to be configured before the API can be used.
+The Body Worn Content Destination API makes it possible to integrate a third-party application as a content destination (CD) to the Body worn system (BWS). The application that implements the API operates as the server, while the BWS is the client that calls the API. The API itself is HTTPS-based and communication with the application is protected by certificates, which need to be configured before the API can be used.
 
-This document describes the integration at a specific point in time, and new additions to the specification may not apply fully. For example, recordings made on earlier versions of the BWS firmware might not have all the data required by the latest specification. The metadata of such recordings would then be missing certain fields or they might be substituted by a default value. Another example could be that newly added capabilities will not be supported by earlier firmwares, and the BWS will therefore not apply the capability even if specified by the integration API.
+This document describes the integration at a specific point in time, and new additions to the specification may not apply fully. For example, recordings made on earlier versions of the BWS firmware might not have all the data required by the latest specification. The metadata of such recordings would then be missing certain fields or they might be substituted by a default value. Another example could be that newly added capabilities will not be supported by earlier firmwares, and the BWS will therefore not apply the capability even if specified by the Content Destination API.
 
 ## Terminology
 
@@ -17,7 +17,7 @@ This document describes the integration at a specific point in time, and new add
 
 ### API model
 
-The body worn integration API is a **semantic API**, modelled on top of the [*OpenStack Swift* API](https://wiki.openstack.org/wiki/Swift), an open source *S3*-like object store API. The [technical definition](http://developer.openstack.org/api-ref-objectstorage-v1.html) of the API **is** the Swift API. The main philosophy is that it shall be possible to use a standard Swift object store file server as CD, without any active server process in-between.
+The Body Worn Content Destination API is a **semantic API**, modelled on top of the [*OpenStack Swift* API](https://wiki.openstack.org/wiki/Swift), an open source *S3*-like object store API. The [technical definition](http://developer.openstack.org/api-ref-objectstorage-v1.html) of the API **is** the Swift API. The main philosophy is that it shall be possible to use a standard Swift object store file server as CD, without any active server process in-between.
 
 Only a small subset of the available Swift API is used in order to create `Containers` and `Objects` and meta data for these. In each API subgroup we specify which methods and attributes that are used and what they mean.
 
@@ -47,7 +47,7 @@ All user supplied strings are URL encoded UTF-8 and can include any character ex
 
 ## API Subgroups
 
-The Body worn integration API is divided into the following parts:
+The Body Worn Content Destination API is divided into the following parts:
 
 | API | Usage |
 |---|---|
@@ -89,7 +89,7 @@ The following table lists the used endpoints of the Swift API. All except for th
 
 In order to set up a connection, as well as the Body worn system, a JSON connection file needs to be created for the Body worn manager (BWM), which is the web based management application for the BWS. The connection file shall contain all configurations that are required to connect to the content destination, including installation-specific settings such as encryption and the supported container format for the content destination.
 
-Every application that implements the Body worn integration API must be able to provide this file.
+Every application that implements the Body Worn Content Destination API must be able to provide this file.
 
 ### Setup procedure
 
@@ -190,7 +190,7 @@ For details on each capability, please see [Capability details](#capability-deta
 
 ## Access token API, file upload URI and credentials
 
-The Access token API is used by the BWS to retrieve and use a token with the `PUT` and `POST`  methods. OpenStack Swift has support for multiple auth systems, one of them being their own Keystone, which is the method that should be used in the Body worn integration API.
+The Access token API is used by the BWS to retrieve and use a token with the `PUT` and `POST`  methods. OpenStack Swift has support for multiple auth systems, one of them being their own Keystone, which is the method that should be used in the Body Worn Content Destination API.
 
 Swift security relies on auth tokens being passed with each request. A token is retrieved when the BWS sends both an `Auth-Key` and `X-Auth-User` in the header of a `GET` request to the `BaseURL`, which is supplied by the JSON connection file. The content destination must then respond with an `X-Auth-Token` and the `X-Storage-Url`, which are then used during the upload.
 
