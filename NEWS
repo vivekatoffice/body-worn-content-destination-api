@@ -1,4 +1,9 @@
-Axis Body worn integration API
+Axis Body Worn Content Destination API
+
+Changes in v1.6.13:
+	* Rename API references in README
+		- Renamed from body-worn-integration-api to body-worn-content-destination-api
+	* Add MSS_DIR environment variable to control config dir path
 
 Changes in v1.6.12:
 	* Remove unused start and stop location fields
