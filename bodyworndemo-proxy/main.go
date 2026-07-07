@@ -1,0 +1,3 @@
+package main
+import("net/http";"net/http/httputil";"net/url")
+func main(){u,_:=url.Parse("http://10.176.10.111:8080");p:=httputil.NewSingleHostReverseProxy(u);http.Handle("/",http.FileServer(http.Dir("./web")));http.HandleFunc("/auth/v1.0",func(w http.ResponseWriter,r *http.Request){if r.Method=="OPTIONS"{w.WriteHeader(204);return};p.ServeHTTP(w,r)});http.HandleFunc("/v1.0/",func(w http.ResponseWriter,r *http.Request){if r.Method=="OPTIONS"{w.WriteHeader(204);return};p.ServeHTTP(w,r)});http.ListenAndServe(":8081",nil)}

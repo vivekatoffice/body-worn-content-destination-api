@@ -578,12 +578,35 @@ func startHTTPServer(ip, port string, handler http.Handler) {
 
 }
 
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8081")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, X-Auth-User, X-Auth-Key, X-Auth-Token")
+
+		// ⭐ This is the missing line
+		w.Header().Set("Access-Control-Expose-Headers", "X-Auth-Token, X-Storage-Url")
+
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func (s *Server) Run(exit chan struct{}) {
 
 	http.HandleFunc(RootAuthEndpoint, s.authentication)
 	http.HandleFunc(RootStorageEndpoint+"/", s.storageHandler)
 
-	handler := logRequestResponse(returnStatusFromEnv(http.DefaultServeMux))
+	handler := corsMiddleware(
+		logRequestResponse(
+			returnStatusFromEnv(http.DefaultServeMux),
+		),
+	)
 
 	if s.settings.UseHttps {
 		s.scheme = "https://"
